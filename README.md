@@ -15,53 +15,53 @@ npm start
 src/
 ├── shared/                          # Спільні будівельні блоки DDD
 │   ├── domain/
-│   │   ├── Entity.ts                # Базовий клас сутності (порівняння за ID)
-│   │   ├── ValueObject.ts           # Базовий клас Value Object (порівняння за значенням)
-│   │   ├── AggregateRoot.ts         # Корінь агрегату (накопичує доменні події)
-│   │   ├── DomainEvent.ts           # Інтерфейс доменної події
-│   │   └── UniqueId.ts              # Унікальний ідентифікатор
+│   │   ├── entity.ts                # Базовий клас сутності (порівняння за ID)
+│   │   ├── value-object.ts          # Базовий клас Value Object (порівняння за значенням)
+│   │   ├── aggregate-root.ts        # Корінь агрегату (накопичує доменні події)
+│   │   ├── domain-event.ts          # Інтерфейс доменної події
+│   │   └── unique-id.ts             # Унікальний ідентифікатор
 │   └── infrastructure/
-│       └── EventBus.ts              # In-memory шина подій (pub/sub)
+│       └── event-bus.ts             # In-memory шина подій (pub/sub)
 │
 ├── riding/                          # Bounded Context: Riding (Поїздки)
 │   ├── domain/
 │   │   ├── aggregates/
-│   │   │   └── Trip.ts              # Aggregate Root — поїздка
+│   │   │   └── trip.ts              # Aggregate Root — поїздка
 │   │   ├── entities/
-│   │   │   ├── Scooter.ts           # Entity — самокат (ID, заряд, GPS)
-│   │   │   └── Rider.ts             # Entity — райдер
+│   │   │   ├── scooter.ts           # Entity — самокат (ID, заряд, GPS)
+│   │   │   └── rider.ts             # Entity — райдер
 │   │   ├── valueObjects/
-│   │   │   ├── Location.ts          # Value Object — GPS-координати
-│   │   │   ├── Money.ts             # Value Object — гроші
-│   │   │   └── RoutePoint.ts        # Value Object — точка маршруту
+│   │   │   ├── location.ts          # Value Object — GPS-координати
+│   │   │   ├── money.ts             # Value Object — гроші
+│   │   │   └── route-point.ts       # Value Object — точка маршруту
 │   │   ├── events/
-│   │   │   ├── TripStarted.ts       # Domain Event
-│   │   │   └── TripFinished.ts      # Domain Event → летить в Billing
+│   │   │   ├── trip-started.ts      # Domain Event
+│   │   │   └── trip-finished.ts     # Domain Event → летить в Billing
 │   │   └── repositories/
-│   │       ├── ITripRepository.ts   # Інтерфейс (Domain Layer)
-│   │       ├── IScooterRepository.ts
-│   │       └── IRiderRepository.ts
+│   │       ├── i-trip-repository.ts    # Інтерфейс (Domain Layer)
+│   │       ├── i-scooter-repository.ts
+│   │       └── i-rider-repository.ts
 │   ├── application/
-│   │   ├── StartTripUseCase.ts      # Use Case: розблокувати самокат
-│   │   ├── AddLocationUseCase.ts    # Use Case: додати GPS-точку
-│   │   └── FinishTripUseCase.ts     # Use Case: завершити поїздку
+│   │   ├── start-trip-use-case.ts      # Use Case: розблокувати самокат
+│   │   ├── add-location-use-case.ts    # Use Case: додати GPS-точку
+│   │   └── finish-trip-use-case.ts     # Use Case: завершити поїздку
 │   └── infrastructure/
-│       ├── InMemoryTripRepository.ts      # Реалізація (Infrastructure Layer)
-│       ├── InMemoryScooterRepository.ts
-│       └── InMemoryRiderRepository.ts
+│       ├── in-memory-trip-repository.ts      # Реалізація (Infrastructure Layer)
+│       ├── in-memory-scooter-repository.ts
+│       └── in-memory-rider-repository.ts
 │
 ├── billing/                         # Bounded Context: Billing (Оплата)
 │   ├── domain/
 │   │   ├── entities/
-│   │   │   └── BillingAccount.ts    # Entity — рахунок райдера
+│   │   │   └── billing-account.ts   # Entity — рахунок райдера
 │   │   ├── services/
-│   │   │   └── PricingService.ts    # Domain Service — розрахунок вартості
+│   │   │   └── pricing-service.ts   # Domain Service — розрахунок вартості
 │   │   └── repositories/
-│   │       └── IBillingAccountRepository.ts
+│   │       └── i-billing-account-repository.ts
 │   ├── application/
-│   │   └── TripFinishedHandler.ts   # Обробник події з контексту Riding
+│   │   └── trip-finished-handler.ts # Обробник події з контексту Riding
 │   └── infrastructure/
-│       └── InMemoryBillingAccountRepository.ts
+│       └── in-memory-billing-account-repository.ts
 │
 └── main.ts                          # Demo — запуск сценарію
 ```
@@ -70,7 +70,7 @@ src/
 
 ### 1. Ubiquitous Language (Всюдисуща мова)
 Всі класи та методи названі бізнес-термінами:
-- `trip.finish()`, а не `service.endRental()`
+- `trip.finish(parkingLocation)`, а не `service.endRental()`
 - `scooter.unlock()`, а не `vehicle.changeState()`
 - `Rider`, `Scooter`, `Trip` — терміни зрозумілі бізнесу
 
