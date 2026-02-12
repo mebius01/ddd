@@ -66,6 +66,17 @@ src/
 └── main.ts                          # Demo — запуск сценарію
 ```
 
+## З чого почати читати проєкт (для вивчення DDD)
+
+- **`src/main.ts`** — демо-сценарій: як збираються залежності, як викликаються use case'и, як підписується Billing на події.
+- **`src/riding/application/*`** — application layer: orchestration (use case'и), які показують «як домен використовується».
+- **`src/riding/domain/aggregates/trip.ts`** — Aggregate Root: основні інваріанти поїздки + генерація доменних подій.
+- **`src/riding/domain/entities/*`** і **`src/riding/domain/valueObjects/*`** — сутності та value objects (стан vs значення).
+- **`src/riding/domain/events/*`** — Domain Events, через які Riding інтегрується з Billing.
+- **`src/shared/domain/*`** — базові DDD-блоки (`Entity`, `ValueObject`, `AggregateRoot`, `UniqueId`, `DomainEvent`).
+- **`src/billing/application/trip-finished-handler.ts`** + **`src/billing/domain/*`** — приклад іншого bounded context, що реагує на подію (`PricingService`, `BillingAccount`).
+- **`src/*/infrastructure/*`** і **`src/shared/infrastructure/event-bus.ts`** — інфраструктура (in-memory репозиторії, pub/sub), яку зручно читати після домену.
+
 ## Концепції DDD у проекті
 
 ### 1. Ubiquitous Language (Всюдисуща мова)
